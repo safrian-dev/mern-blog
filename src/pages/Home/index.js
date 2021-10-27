@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { BlogItem, Button, Gap } from '../../components'
 import './home.scss'
 import { useHistory } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import Axios from 'axios'
 
 const Home = () => {
-    const [dataBlog, setDataBlog] = useState([])
+    const [dataBlog, setDataBlog] = useState([]);
 
+    const stateGlobal = useSelector(state => state);
+    console.log('State Global : ', stateGlobal);
     useEffect(() => {
         Axios.get('http://localhost:4000/v1/blog/posts')
         .then(result => {
