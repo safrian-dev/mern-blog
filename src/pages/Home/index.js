@@ -7,30 +7,15 @@ import Axios from 'axios'
 
 const Home = () => {
 
-    // state lokal
-    // const [dataBlog, setDataBlog] = useState([]);
-
-    // state global
-    const {dataBlogs , name} = useSelector(state => state);
-
+    const {dataBlog} = useSelector(state => state.homeReducer);
     const dispatch = useDispatch();
-
-    // console.log('State Global : ', stateGlobal);
-    console.log('data blog global: ', dataBlogs);
 
     useEffect(() => {
 
-        // memanggil data state yang baru
-        setTimeout(() => {
-            dispatch({type: 'UPDATE_NAME'})
-        }, 3000)
-
         Axios.get('http://localhost:4000/v1/blog/posts')
         .then(result => {
-            // console.log('data API : ', result.data);
             const responseApi = result.data;
 
-            // mengubah data pada state global yang defaulnya kosong
             dispatch({type: 'UPDATE_DATA_BLOG', payload: responseApi.data})
 
             // asign data ke method state
@@ -39,7 +24,7 @@ const Home = () => {
         .catch(err => {
             console.log('error : ', err);
         })
-    }, [])
+    }, [dispatch])
 
     const history = useHistory();
     return (
@@ -47,11 +32,11 @@ const Home = () => {
             <div className="create-wrapper">
                 <Button title="Create Blog" onClick={() => history.push('/create-blog')} />
             </div>
-            <p>{name}</p>
+            {/* <p>{name}</p> */}
             <Gap height={20}/>
             <div className="content-wrapper">
                 {/* menampilkan data blog dari state */}
-                {dataBlogs.map(blog => {
+                {dataBlog.map(blog => {
                     return (
                         <BlogItem 
                             key={blog._id} 
