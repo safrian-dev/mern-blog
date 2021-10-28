@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BlogItem, Button, Gap } from '../../components'
 import './home.scss'
 import { useHistory } from 'react-router-dom'
@@ -7,16 +7,30 @@ import { setDataBlog } from '../../config/redux/action'
 
 const Home = () => {
 
-    const {dataBlog} = useSelector(state => state.homeReducer);
+    const [counter, setCounter] = useState(1);
+    const {dataBlog, page} = useSelector(state => state.homeReducer);
     const dispatch = useDispatch();
+
+    console.log('Page : ', page);
 
     useEffect(() => {
 
-        dispatch(setDataBlog());
+        dispatch(setDataBlog(counter));
         
-    }, [dispatch])
+    }, [counter, dispatch])
 
     const history = useHistory();
+
+    const previous = () => {
+        setCounter(counter <= 1 ? 1 : counter - 1)
+        console.log(counter);
+    }
+    
+    const next = () => {
+        setCounter(counter === page.totalPage ? page.totalPage : counter + 1)
+        console.log(counter);
+    }
+
     return (
         <div className="home-page-wrapper">
             <div className="create-wrapper">
@@ -40,9 +54,11 @@ const Home = () => {
                 })}
             </div>
             <div className="pagination">
-                <Button title="Previous"/>
+                <Button title="Previous" onClick={previous}/>
                 <Gap width={20}/>
-                <Button title="Next"/>
+                <p className="text-page">{page.currentPage} / {page.totalPage}</p>
+                <Gap width={20}/>
+                <Button title="Next" onClick={next}/>
             </div>
             <Gap height={20}/>
         </div>
