@@ -8,7 +8,7 @@ const BlogItem = (props) => {
     const history = useHistory();
 
     // destructuring props
-    const {image, title, body, name, date} = props;
+    const {image, title, body, name, date, id} = props;
 
     return (
         <div className="blog-item">
@@ -18,7 +18,7 @@ const BlogItem = (props) => {
                 <p className="author">{name} - {date}</p>
                 <p className="body">{body}</p>
                 <Gap height={30}/>
-                <Button title="Read more.." onClick={() => history.push('/detail-blog')}/>
+                <Button title="Read more.." onClick={() => history.push(`/detail-blog/${id}`)}/>
             </div>
         </div>
     )
