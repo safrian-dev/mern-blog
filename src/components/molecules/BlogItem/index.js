@@ -8,7 +8,7 @@ const BlogItem = (props) => {
     const history = useHistory();
 
     // destructuring props
-    const {image, title, body, name, date, id} = props;
+    const {image, title, body, name, date, id, onDelete} = props;
 
     return (
         <div className="blog-item">
@@ -18,7 +18,7 @@ const BlogItem = (props) => {
                     <p className="title">{title}</p>
                     <div className="edit-wrapper">
                         <p className="edit" onClick={() => history.push(`/create-blog/${id}`)}>Edit</p> |
-                        <p className="delete">Delete</p>
+                        <p className="delete" onClick={() => onDelete(id)}>Delete</p>
                     </div>
                 </div>
                 <p className="author">{name} - {date}</p>
